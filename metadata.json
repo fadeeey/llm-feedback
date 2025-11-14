@@ -1,0 +1,5 @@
+{
+  "name": "Copy of Corporate Feedback AI Analyzer",
+  "description": "A web application to create surveys, collect feedback, and use Gemini to generate structured analytical reports for employee performance reviews.",
+  "requestFramePermissions": []
+}

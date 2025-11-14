@@ -1,21 +1,22 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import type { Survey, AIReport } from '../types';
-import { generateReport } from '../services/apiService';
-import Spinner from './common/Spinner';
-import Card from './common/Card';
-import BarChart from './common/BarChart';
-import { ArrowPathIcon, CheckCircleIcon, ExclamationTriangleIcon } from './common/Icons';
+import type { Survey, AIReport } from '../../types';
+import { generateReport } from '../../services/apiService';
+import Spinner from '../common/Spinner';
+import Card from '../common/Card';
+import BarChart from '../common/BarChart';
+import { ArrowPathIcon, CheckCircleIcon, ExclamationTriangleIcon } from '../common/Icons';
 
 interface ReportViewProps {
   survey: Survey;
-  feedbackList: string[];
   onStartNew: () => void;
 }
 
-const ReportView: React.FC<ReportViewProps> = ({ survey, feedbackList, onStartNew }) => {
+const ReportView: React.FC<ReportViewProps> = ({ survey, onStartNew }) => {
   const [report, setReport] = useState<AIReport | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const feedbackList = survey.feedback || [];
 
   const fetchReport = useCallback(async () => {
     setIsLoading(true);
@@ -32,10 +33,16 @@ const ReportView: React.FC<ReportViewProps> = ({ survey, feedbackList, onStartNe
   }, [feedbackList]);
 
   useEffect(() => {
-    fetchReport();
+    if (feedbackList.length > 0) {
+        fetchReport();
+    } else {
+        setIsLoading(false);
+        setError("Нет отзывов для создания отчета.");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // FIX: Defined the missing 'renderSection' helper function.
   const renderSection = (title: string, items: string[], icon: React.ReactNode) => (
     <div className="p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
       <h4 className="flex items-center text-md font-semibold text-slate-800 dark:text-slate-200">

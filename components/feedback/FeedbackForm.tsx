@@ -1,23 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import type { Survey } from '../types';
-import Card from './common/Card';
-import { ClipboardDocumentCheckIcon, ClipboardDocumentIcon } from './common/Icons';
+import type { Survey } from '../../types';
+import Card from '../common/Card';
+import { ClipboardDocumentCheckIcon, ClipboardDocumentIcon } from '../common/Icons';
 
 interface FeedbackFormProps {
   survey: Survey;
-  feedbackList: string[];
   onFeedbackSubmitted: (feedback: string) => void;
   onGenerateReport: () => void;
   onStartNew: () => void;
 }
 
-const FeedbackForm: React.FC<FeedbackFormProps> = ({ survey, feedbackList, onFeedbackSubmitted, onGenerateReport, onStartNew }) => {
+const FeedbackForm: React.FC<FeedbackFormProps> = ({ survey, onFeedbackSubmitted, onGenerateReport, onStartNew }) => {
   const [feedback, setFeedback] = useState('');
   const [surveyLink, setSurveyLink] = useState('');
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    // In a real app, this would be a proper URL. We simulate it here.
     setSurveyLink(`${window.location.origin}${window.location.pathname}#survey/${survey.id}`);
   }, [survey.id]);
   
@@ -35,6 +33,8 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ survey, feedbackList, onFee
       setFeedback('');
     }
   };
+
+  const feedbackList = survey.feedback || [];
 
   return (
     <div className="space-y-6">

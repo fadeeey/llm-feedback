@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import type { Survey } from '../types';
-import Card from './common/Card';
+import type { Survey } from '../../types';
+import Card from '../common/Card';
 
 interface SurveyCreationProps {
   // FIX: Updated prop type to accept a partial survey, resolving type mismatch.
